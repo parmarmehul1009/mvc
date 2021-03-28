@@ -14,22 +14,9 @@ class Tabs extends \Block\Core\Edit\Tabs
         return $this;
     }
 
-    public function removeTabs()
-    {
-        $this->removeTab('option');
-    }
-
-    public function removeTab($key)
-    {
-        if (array_key_exists($key, $this->tabs)) {
-            $this->unsetTab($key);
-        }
-    }
-
     public function getTabs()
     {
         if (!$this->getTableRow()->attributeId) {
-            $this->removeTabs();
         };
         return $this->tabs;
     }

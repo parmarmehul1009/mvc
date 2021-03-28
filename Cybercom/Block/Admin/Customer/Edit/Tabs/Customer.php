@@ -19,7 +19,7 @@ class Customer extends \Block\Core\Edit
 
     public function getCustomerGroups()
     {
-        $customerGroup = \Mage::getBlock('Block\Admin\Customer\Group\Grid');
-        return $customerGroup->getCustomerGroups();
+        $customerGroup = \Mage::getBlock('Model\Customer\Group');
+        return $customerGroup->fetchAll();
     }
 }

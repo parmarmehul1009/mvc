@@ -30,7 +30,7 @@
                     <?php echo ($this->getChild('left')->toHtml()); ?>
                 </div>
                 <div class="col-md-8">
-                    <?php echo ($this->createBlock('Block\Core\Layout\Message')->toHtml()); ?>
+                    <?php echo ($this->getBlock('Block\Core\Layout\Message')->toHtml()); ?>
                     <?php echo ($this->getChild('content')->toHtml()); ?>
                 </div>
                 <div class="col-md-2">

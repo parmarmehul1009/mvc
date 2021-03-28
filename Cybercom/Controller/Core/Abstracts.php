@@ -7,6 +7,7 @@ class Abstracts
     protected $layout = null;
     protected $request = null;
     protected $message = null;
+    protected $filter = null;
 
     public function __construct()
     {
@@ -70,12 +71,13 @@ class Abstracts
         $queryString = http_build_query($final);
         return "http://localhost/Advance%20php/Practice/Cybercom/index.php?{$queryString}";
     }
-
+    // return "http://localhost/Advance%20php/Practice/Cybercom/index.php?{$queryString}";
     public function setMessage($message = null)
     {
         $this->message = \Mage::getModel('Model\Core\Message');
         return $this;
     }
+
 
     public function getMessage()
     {
@@ -83,6 +85,20 @@ class Abstracts
             $this->setMessage();
         }
         return $this->message;
+    }
+
+    public function setFilter($filter = null)
+    {
+        $this->filter = \Mage::getModel('Model\Core\Filter');
+        return $this;
+    }
+
+    public function getFilter()
+    {
+        if (!$this->filter) {
+            $this->setFilter();
+        }
+        return $this->filter;
     }
 
     public function makeResponse($content = null, $left = null, $right = null)

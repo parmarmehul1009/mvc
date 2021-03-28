@@ -8,6 +8,7 @@ class Home extends \Controller\Core\Customer
 {
     public function indexAction()
     {
-        echo 'Hello';
+        $layout = $this->getlayout();
+        $this->renderLayout();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Model\Customer;
 
-\Mage::loadFileByClassName('Model\Admin\Session');
+\Mage::loadFileByClassName('Model\Customer\Session');
 class Message extends \Model\Customer\Session
 {
     public function __construct()

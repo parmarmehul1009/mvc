@@ -22,4 +22,10 @@ class Customer extends \Controller\Core\Abstracts
         $this->message = \Mage::getModel('Model\Customer\Message');
         return $this;
     }
+
+    public function setFilter($filter = null)
+    {
+        $this->filter = \Mage::getModel('Model\Customer\Filter');
+        return $this;
+    }
 }

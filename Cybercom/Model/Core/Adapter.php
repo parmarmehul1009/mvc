@@ -27,14 +27,6 @@ class Adapter
         $this->connect = $connect;
         return $this;
     }
-
-    function isConnected()
-    {
-        if (!$this->getConnect()) {
-            return false;
-        }
-        return true;
-    }
     function error($errno, $error, $query)
     {
         echo "<div style='background-color:#faa'>";
@@ -44,12 +36,20 @@ class Adapter
         exit;
     }
 
+    function isConnected()
+    {
+        if (!$this->getConnect()) {
+            return false;
+        }
+        return true;
+    }
+
     function select($query)
     {
         if (!$this->isConnected()) {
             $this->connection();
         }
-        $result = $this->getConnect()->query($query) or $this->error($this->getConnect()->errno, $this->getConnect()->error, $query);
+        $result = $this->getConnect()->query($query);
         return $result;
     }
     function insert($query)
@@ -78,7 +78,7 @@ class Adapter
         if (!$this->isConnected()) {
             $this->connection();
         }
-        $result = $this->getConnect()->query($query) or $this->error($this->getConnect()->errno, $this->getConnect()->error, $query);
+        $result = $this->getConnect()->query($query);
         return $result;
     }
 
@@ -87,7 +87,7 @@ class Adapter
         if (!$this->isConnected()) {
             $this->connection();
         }
-        $result = $this->getConnect()->query($query) or $this->error($this->getConnect()->errno, $this->getConnect()->error, $query);
+        $result = $this->getConnect()->query($query);
         $row = $result->fetch_assoc();
         if (!$row) {
             return false;
@@ -95,12 +95,21 @@ class Adapter
         return $row;
     }
 
+    function fetchOne($query)
+    {
+        if (!$this->isConnected()) {
+            $this->connection();
+        }
+        $result = $this->getConnect()->query($query);
+        return $result->num_rows;
+    }
+
     function fetchAll($query)
     {
         if (!$this->isConnected()) {
             $this->connection();
         }
-        $result = $this->getConnect()->query($query) or $this->error($this->getConnect()->errno, $this->getConnect()->error, $query);
+        $result = $this->getConnect()->query($query);
         $rows = $result->fetch_all($resulttype = MYSQLI_ASSOC);
         if (!$rows) {
             return false;
@@ -113,7 +122,7 @@ class Adapter
         if (!$this->isConnected()) {
             $this->connection();
         }
-        $result = $this->getConnect()->query($query) or $this->error($this->getConnect()->errno, $this->getConnect()->error, $query);
+        $result = $this->getConnect()->query($query);
         $rows = $result->fetch_all();
         if (!$rows) {
             return $rows;;

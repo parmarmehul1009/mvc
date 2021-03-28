@@ -11,7 +11,7 @@
                 <div class="form-group col-md-5">
                     <label>Title</label> <span id="title1-info" class="invalid-feedback"></span>
                     <div class="input-group">
-                        <input type="text" name="cms_page[title1]" id="title1" class="form-control" placeholder="Enter Title" value="<?php echo $cms_page->title ?>">
+                        <input type="text" name="cms_page[title1]" id="title1" class="form-control" placeholder="Enter Title" value="<?php echo $cms_page->title1 ?>">
                     </div>
                 </div>
                 <div class="form-group col-md-5">

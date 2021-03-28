@@ -1,36 +1,90 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <script type="text/javascript" src="<?php echo $this->baseUrl('skin/admin/admin/js/jquery-3.6.0.js') ?>"></script>
-    <script type="text/javascript" src="<?php echo $this->baseUrl('skin/admin/admin/js/mage.js') ?>"></script>
-    <link rel="stylesheet" href="./skin/admin/mage/css/style.css">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home</title>
 
-    <title></title>
+    <!-- Font awesome -->
+    <link href="./skin/customer/css/font-awesome.css" rel="stylesheet" />
+    <!-- Bootstrap -->
+    <link href="./skin/customer/css/bootstrap.css" rel="stylesheet" />
+    <!-- SmartMenus jQuery Bootstrap Addon CSS -->
+    <link href="./skin/customer/css/jquery.smartmenus.bootstrap.css" rel="stylesheet" />
+    <!-- Product view slider -->
+    <link rel="stylesheet" type="text/css" href="./skin/customer/css/jquery.simpleLens.css" />
+    <!-- slick slider -->
+    <link rel="stylesheet" type="text/css" href="./skin/customer/css/slick.css" />
+    <!-- price picker slider -->
+    <link rel="stylesheet" type="text/css" href="./skin/customer/css/nouislider.css" />
+    <!-- Theme color -->
+    <link id="switcher" href="./skin/customer/css/theme-color/default-theme.css" rel="stylesheet" />
+    <!-- <link id="switcher" href="./skin/customer/css/theme-color/bridge-theme.css" rel="stylesheet"> -->
+    <!-- Top Slider CSS -->
+    <link href="./skin/customer/css/sequence-theme.modern-slide-in.css" rel="stylesheet" media="all" />
+
+    <!-- Main style sheet -->
+    <link href="./skin/customer/css/style.css" rel="stylesheet" />
+    <link href="./skin/customer/css/style1.css" rel="stylesheet" />
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body>
+    <!-- wpf loader Two -->
+    <!-- <div id="wpf-loader-two">
+        <div class="wpf-loader-two-inner">
+            <span>Loading</span>
+        </div>
+    </div> -->
+    <!-- / wpf loader Two -->
+    <!-- SCROLL TOP BUTTON -->
+    <a class="scrollToTop" href="#"><i class="fa fa-chevron-up"></i></a>
+    <!-- END SCROLL TOP BUTTON -->
+
     <div>
         <?php echo $this->getChild('header')->toHtml(); ?>
     </div>
     <div>
-        <?php echo $this->createBlock('Block\Core\Layout\Message')->toHtml(); ?>
+        <?php echo $this->getBlock('Block\Core\Layout\Message')->toHtml(); ?>
         <?php echo $this->getChild('content')->toHtml(); ?>
     </div>
     <div>
         <?php echo $this->getChild('footer')->toHtml(); ?>
     </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
 
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./skin/customer/js/bootstrap.js"></script>
+    <!-- SmartMenus jQuery plugin -->
+    <script type="text/javascript" src="./skin/customer/js/jquery.smartmenus.js"></script>
+    <!-- SmartMenus jQuery Bootstrap Addon -->
+    <script type="text/javascript" src="./skin/customer/js/jquery.smartmenus.bootstrap.js"></script>
+    <!-- To Slider JS -->
+    <script src="./skin/customer/js/sequence.js"></script>
+    <script src="./skin/customer/js/sequence-theme.modern-slide-in.js"></script>
+    <!-- Product view slider -->
+    <script type="text/javascript" src="./skin/customer/js/jquery.simpleGallery.js"></script>
+    <script type="text/javascript" src="./skin/customer/js/jquery.simpleLens.js"></script>
+    <!-- slick slider -->
+    <script type="text/javascript" src="./skin/customer/js/slick.js"></script>
+    <!-- Price picker slider -->
+    <script type="text/javascript" src="./skin/customer/js/nouislider.js"></script>
+    <!-- Custom js -->
+    <script src="./skin/customer/js/custom.js"></script>
 </body>
 
 </html>

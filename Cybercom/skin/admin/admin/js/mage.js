@@ -114,6 +114,10 @@ Base.prototype = {
         var data = new FormData();
         var file = $(id)[0].files;
         data.append('file', file[0]);
+        if (document.getElementById('name')) {
+            data.append("brand[name]", document.getElementById('name').value);
+            data.append("brand[status]", document.getElementById('status').value);
+        }
         this.setParams(data);
         this.setMethod(this.form.attr('method'));
         return this;

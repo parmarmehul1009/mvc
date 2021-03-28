@@ -17,5 +17,7 @@
     </tbody>
 </table>
 <script>
-    CKEDITOR.replace('cms_page[content]');
+    if (document.getElementsByName('cms_page[content]')) {
+        CKEDITOR.replace('cms_page[content]');
+    }
 </script>

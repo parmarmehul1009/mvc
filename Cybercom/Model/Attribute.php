@@ -12,7 +12,7 @@ class Attribute extends \Model\Core\Table
     const DECIMAL = 'text';
     const TEXTAREA = 'textarea';
     const SELECT = 'select';
-    const CHECKBOX = 'chechbox';
+    const CHECKBOX = 'checkbox';
     const RADIO = 'radio';
     const PRODUCT = 'product';
     const CATEGORY = 'category';

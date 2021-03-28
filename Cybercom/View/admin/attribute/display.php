@@ -1,7 +1,6 @@
 <?php $attribute = $this->getAttribute(); ?>
 <?php $options = $this->getOPtions(); ?>
 <?php $product  = $this->getProduct(); ?>
-
 <table class="table" id="existingOption">
     <tbody>
         <?php switch ($attribute->inputType):
@@ -15,6 +14,7 @@
 
                             <?php else : ?>
                                 <?php foreach ($options->getData() as $option) : ?>
+
                                     <option value="<?php echo $option->optionId ?>" <?php if ($option->optionId == $product->$attribute1) : echo 'selected'; ?> <?php endif; ?>><?php echo $option->name ?></option>
                                 <?php endforeach; ?>
                             <?php endif; ?>
@@ -29,7 +29,6 @@
                         <label class="col-md-12" for=""><?php echo  $attribute->name;
                                                         $attribute2 = $attribute->code ?></label>
                         <?php if (!$options) : ?>
-
                         <?php else : ?>
                             <?php foreach ($options->getData() as $option) : ?>
                                 <div class="col-md-12">

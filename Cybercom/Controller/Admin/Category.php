@@ -49,8 +49,10 @@ class Category extends \Controller\Core\Admin
 
             $categorypathId = $category->pathId;
             $postDate = $this->getRequest()->getPost('category');
+
             $category->setData($postDate);
             $category->save();
+
             $category->updatePathId();
             $category->updateChildrenPathIds($categorypathId);
             $this->getMessage()->setSuccess('Category Created.');
@@ -105,6 +107,14 @@ class Category extends \Controller\Core\Admin
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
         }
+        $grid = \Mage::getBlock('Block\Admin\Category\Grid')->toHtml();
+        $this->makeResponse($grid);
+    }
+
+    public function filterAction()
+    {
+        $data = $this->getRequest()->getPost('filter');
+        $this->getFilter()->setFilters($data);
         $grid = \Mage::getBlock('Block\Admin\Category\Grid')->toHtml();
         $this->makeResponse($grid);
     }

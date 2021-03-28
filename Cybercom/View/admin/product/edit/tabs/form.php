@@ -1,14 +1,21 @@
 <?php $product = $this->getTableRow(); ?>
-<?php $categoriesOptions  = $this->getCategoriesOptions() ?>
+<?php $categoriesOptions  = $this->getCategoriesOptions(); ?>
+<?php $categorys = $this->getCategorys(); ?>
 
 <div class="row">
     <div class="form-group col-md-5">
         <label>Category</label> <span id="description-info" class=" invalid-feedback"></span>
         <div class="">
-            <select name="category[categoryId]" required>
-                <?php foreach ($categoriesOptions as $key => $value) : ?>
-                    <option value="<?php echo $key ?>" <?php if ($key == $product->categoryId) echo ' selected="selected"'; ?>><?php echo $value ?></option>
-                <?php endforeach; ?>
+            <select name="category[]" multiple required>
+                <?php if ($categorys) : ?>
+                    <?php foreach ($categoriesOptions as $key => $value) : ?>
+                        <option value="<?php echo $key ?>" <?php foreach ($categorys->getData() as $category) : ?> <?php if ($key == $category->categoryId) echo ' selected="selected"'; ?> <?php endforeach; ?>><?php echo $value ?></option>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <?php foreach ($categoriesOptions as $key => $value) : ?>
+                        <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </select>
         </div>
     </div>

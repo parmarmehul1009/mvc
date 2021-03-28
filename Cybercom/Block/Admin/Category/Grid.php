@@ -2,35 +2,127 @@
 
 namespace Block\Admin\Category;
 
-\Mage::loadFileByClassName('Block\Core\Template');
+\Mage::loadFileByClassName('Block\Core\Grid');
 
-class Grid extends \Block\Core\Template
+class Grid extends \Block\Core\Grid
 {
-    protected $categories = [];
     protected $categoriesOptions = [];
-    public function __construct()
+    public function prepareColumns()
     {
-        parent::__construct();
-        $this->setTemplate('./View/admin/category/grid.php');
-        $this->setController(\Mage::getController('Controller\Admin\Category'));
+        $this->addColumn('categoryId', [
+            'field' => 'categoryId',
+            'label' => 'Category Id',
+            'type' => 'number',
+        ]);
+
+        $this->addColumn('name', [
+            'field' => 'name',
+            'label' => 'Category Name',
+            'type' => 'text',
+        ]);
+
+        // $this->addColumn('image', [
+        //     'field' => 'image',
+        //     'label' => 'Image',
+        //     'type' => 'image',
+        // ]);
+
+        $this->addColumn('status', [
+            'field' => 'status',
+            'label' => 'category status',
+            'type' => 'enum',
+        ]);
     }
 
-    public function setCategories($categories = null)
+    public function prepareActions()
     {
-        if (is_null($categories)) {
-            $query = "SELECT * FROM `category` ORDER BY `pathId` ASC;";
-            $categories = \Mage::getModel('Model\Category')->fetchAll($query);
+
+        $this->addAction('edit', [
+            'label' => 'Edit',
+            'method' => 'getEditUrl',
+            'ajax' => true,
+        ]);
+
+        $this->addAction('delete', [
+            'label' => 'Delete',
+            'method' => 'getDeleteUrl',
+            'ajax' => true,
+        ]);
+    }
+
+    public function getEditUrl($row)
+    {
+        $url = $this->getUrl('form', 'admin_category', ['id' => $row->categoryId], true);
+        echo "mage.setUrl('{$url}').load()";
+    }
+
+    public function getDeleteUrl($row)
+    {
+        $url = $this->getUrl('delete', 'admin_category', ['id' => $row->categoryId], true);
+        echo "mage.setUrl('{$url}').load()";
+    }
+
+
+    public function prepareButtons()
+    {
+        $this->addButton('addnew', [
+            'label' => 'Add New',
+            'method' => 'getAddNewUrl',
+        ]);
+
+        $this->addButton('applyfilter', [
+            'label' => 'Apply Filter',
+            'method' => 'getApplyFilterUrl',
+        ]);
+    }
+
+    public function getFildValue($row, $field)
+    {
+        if ($field == 'name') {
+            return $this->getName($row);
         }
-        $this->categories = $categories;
+        return $row->$field;
+    }
+
+
+    public function getAddNewUrl()
+    {
+
+        $url = $this->getUrl('form', 'admin_category');
+        echo "mage.setUrl('{$url}').load()";
+    }
+
+
+    public function prepareCollection()
+    {
+        $filters = $this->getFilter()->getFilters();
+        $this->getFilter()->clearFilters();
+        $this->getPager()->setCurrentPage(1);
+        $this->getPager()->setRecordsPerPage(5);
+        $this->getPager()->calculate();
+        $start = ($this->getPager()->getCurrentPage() - 1) * $this->getPager()->getRecordsPerPage();
+        $category = \Mage::getModel('Model\category');
+        $query = "SELECT * FROM `{$category->getTableName()}` LIMIT {$start},{$this->getPager()->getRecordsPerPage()}";
+        if ($filters) {
+            $str = '';
+            foreach ($filters as $fild => $value) {
+                if ($value) {
+                    $str .= " AND `{$fild}` LIKE '%{$value}%' ";
+                }
+            }
+            $query = "SELECT * FROM `{$category->getTableName()}` WHERE 1 = 1 {$str} LIMIT {$start},{$this->getPager()->getRecordsPerPage()}";
+            if ($str == '') {
+                $query = "SELECT * FROM `{$category->getTableName()}` LIMIT {$start},{$this->getPager()->getRecordsPerPage()}";
+            }
+        }
+        $collection = $category->fetchAll($query);
+        $this->setCollection($collection);
         return $this;
     }
 
-    public function getCategories()
+    public function getTitle()
     {
-        if (!$this->categories) {
-            $this->setCategories();
-        }
-        return $this->categories;
+        return 'Manage Category';
     }
 
     public function getName($category)
@@ -50,4 +142,11 @@ class Grid extends \Block\Core\Template
         $name = implode('/', $pathIds);
         return $name;
     }
+
+    public function getApplyFilterUrl()
+    {
+        $url = $this->getUrl('filter', 'admin_category', null, true);
+        echo "mage.setForm(this).setUrl('{$url}').load()";
+    }
 }
+// http://localhost/myProject/practice/index.php?c=admin_dashboard&a=index&p=4

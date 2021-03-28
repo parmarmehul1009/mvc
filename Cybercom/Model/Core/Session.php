@@ -66,6 +66,9 @@ class Session
 
     public function __unset($key)
     {
+        if (!array_key_exists($this->getNameSpace(), $_SESSION)) {
+            return null;
+        }
         if (array_key_exists($key, $_SESSION[$this->getNameSpace()])) {
             unset($_SESSION[$this->getNameSpace()][$key]);
         }

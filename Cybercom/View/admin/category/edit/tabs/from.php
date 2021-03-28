@@ -24,6 +24,15 @@
         </div>
     </div>
     <div class="form-group col-md-5">
+        <label>Featured </label> <span id="name-info" class="invalid-feedback"></span>
+        <div class="input-group">
+            <select name="category[featured]" id="parentId">
+                <option value="1" <?php if (1 == $category->featured) : echo 'selected' ?><?php endif; ?>>Yes</option>
+                <option value="0" <?php if (0 == $category->featured) : echo 'selected' ?><?php endif; ?>>No</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group col-md-5">
         <label>status</label> <span id="description-info" class=" invalid-feedback"></span>
         <div class="input-group">
             <select name="category[status]" id="status" required>

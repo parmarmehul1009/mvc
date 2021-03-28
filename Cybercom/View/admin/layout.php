@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="./skin/admin/mage/css/style.css">
     <script type="text/javascript" src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 
+
     <title></title>
 </head>
 
@@ -20,7 +21,7 @@
         <?php echo $this->getChild('header')->toHtml(); ?>
     </div>
     <div>
-        <?php echo $this->createBlock('Block\Core\Layout\Message')->toHtml(); ?>
+        <?php echo $this->getBlock('Block\Core\Layout\Message')->toHtml(); ?>
         <?php echo $this->getChild('content')->toHtml(); ?>
     </div>
     <div>

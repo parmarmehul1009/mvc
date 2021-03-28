@@ -105,4 +105,12 @@ class Shipping extends \Controller\Core\Admin
         $grid = \Mage::getBlock('Block\Admin\Shipping\Grid')->toHtml();
         $this->makeResponse($grid);
     }
+
+    public function filterAction()
+    {
+        $data = $this->getRequest()->getPost('filter');
+        $this->getFilter()->setFilters($data);
+        $grid = \Mage::getBlock('Block\Admin\Shipping\Grid')->toHtml();
+        $this->makeResponse($grid);
+    }
 }

@@ -31,10 +31,10 @@ class Address extends \Controller\Core\Admin
                 $addresses = $address->fetchAll($query);
                 if ($addresses) {
                     foreach ($addresses->getData() as $address) {
-                        if ($address->addressType == 'Billing') {
+                        if ($address->addressType == 'billing') {
                             $billing = $address;
                         }
-                        if ($address->addressType == 'Shipping') {
+                        if ($address->addressType == 'shipping') {
                             $shipping = $address;
                         }
                     }
@@ -42,13 +42,13 @@ class Address extends \Controller\Core\Admin
             }
             $billingData = $this->getRequest()->getPost('billing');
             $billing->setData($billingData);
-            $billing->addressType = 'Billing';
+            $billing->addressType = 'billing';
             $billing->customerId = $id;
             $recordId = $billing->save();
 
             $shippingData = $this->getRequest()->getPost('shipping');
             $shipping->setData($shippingData);
-            $shipping->addressType = 'Shipping';
+            $shipping->addressType = 'shipping';
             $shipping->customerId = $id;
             $recordId = $shipping->save();
 

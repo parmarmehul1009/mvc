@@ -20,7 +20,7 @@
         <?php $this->getChild('header')->toHtml(); ?>
     </div>
     <div>
-        <?php $this->createBlock('Block\Core\Layout\Message')->toHtml(); ?>
+        <?php $this->getBlock('Block\Core\Layout\Message')->toHtml(); ?>
         <?php $this->getChild('content')->toHtml(); ?>
     </div>
     <div class="footer">

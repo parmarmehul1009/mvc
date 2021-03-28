@@ -43,7 +43,7 @@ class Template
 
     public function getUrlObject()
     {
-        return $this->url;
+        return \Mage::getModel('Model\Core\Url');
     }
 
     public function setRequest()
@@ -135,7 +135,7 @@ class Template
         return $this->message;
     }
 
-    public function createBlock($className)
+    public function getBlock($className)
     {
         return \Mage::getBlock($className);
     }

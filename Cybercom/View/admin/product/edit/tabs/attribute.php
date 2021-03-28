@@ -12,7 +12,8 @@
                         $block = \Mage::getBlock('Block\Admin\Attribute\Display');
                         $block->setAttribute($attribute);
                         $block->setProduct($product);
-                        echo $block->toHtml() ?>
+                        echo $block->toHtml()
+                        ?>
                     <?php endforeach; ?>
                 </tr>
             <?php else : ?>

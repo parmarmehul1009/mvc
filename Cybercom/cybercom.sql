@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2021 at 02:42 PM
+-- Generation Time: Mar 28, 2021 at 06:05 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -40,7 +40,8 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`adminId`, `userName`, `password`, `status`, `createdDate`) VALUES
-(1, 'admin', '123', 0, '2021-03-18 14:00:51');
+(1, 'admin', '123', 0, '2021-03-18 14:00:51'),
+(4, 'admin123', '123', 0, '2021-03-23 10:00:05');
 
 -- --------------------------------------------------------
 
@@ -87,6 +88,116 @@ INSERT INTO `attribute_option` (`optionId`, `name`, `attributeId`, `sortOrder`) 
 (1, 'white', 1, 1),
 (2, 'black', 1, 2),
 (3, 'green', 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `brand`
+--
+
+CREATE TABLE `brand` (
+  `brandId` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `image` text NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `brand`
+--
+
+INSERT INTO `brand` (`brandId`, `name`, `image`, `status`, `createdDate`) VALUES
+(0, 'brand1', '16166896001.jpg', 0, '2021-03-25 16:26:40');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `cartId` int(11) NOT NULL,
+  `sessionId` varchar(45) NOT NULL,
+  `customerId` int(11) NOT NULL,
+  `total` decimal(10,0) NOT NULL,
+  `discount` decimal(10,0) NOT NULL,
+  `paymentMethodId` int(11) NOT NULL,
+  `shippingMethodId` int(11) NOT NULL,
+  `shippingAmount` int(10) NOT NULL,
+  `grantTotal` decimal(10,0) DEFAULT NULL,
+  `createdDate` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`cartId`, `sessionId`, `customerId`, `total`, `discount`, `paymentMethodId`, `shippingMethodId`, `shippingAmount`, `grantTotal`, `createdDate`) VALUES
+(2, '', 2, '172800', '0', 1, 3, 50, '172850', 2021),
+(3, '', 3, '408400', '0', 2, 2, 100, '408500', 2021),
+(4, '', 4, '62800', '0', 0, 2, 100, '62900', 2021),
+(5, '', 5, '55000', '0', 0, 4, 0, '55000', 2021);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cartaddress`
+--
+
+CREATE TABLE `cartaddress` (
+  `cartAddressId` int(11) NOT NULL,
+  `cartId` int(11) NOT NULL,
+  `firstName` varchar(11) NOT NULL,
+  `lastName` varchar(11) NOT NULL,
+  `address` varchar(56) NOT NULL,
+  `city` varchar(11) NOT NULL,
+  `state` varchar(11) NOT NULL,
+  `country` varchar(11) NOT NULL,
+  `zipCode` int(11) NOT NULL,
+  `addressType` varchar(11) NOT NULL,
+  `sameAsBilling` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cartaddress`
+--
+
+INSERT INTO `cartaddress` (`cartAddressId`, `cartId`, `firstName`, `lastName`, `address`, `city`, `state`, `country`, `zipCode`, `addressType`, `sameAsBilling`) VALUES
+(1, 2, 'ravi123', 'parmar', 'ramnagar', 'botad11', 'gujarat', 'India', 364710, 'billing', 0),
+(2, 2, 'ravi123', 'parmar', 'ramnagar', 'botad11', 'gujarat', 'India', 364710, 'shipping', 0),
+(5, 3, 'mehul', 'parmar', 'gopalnagar', 'botad', 'gujarat', 'India', 364710, 'billing', 0),
+(6, 3, 'mehul', 'parmar', 'gopalnagar', 'botad', 'gujarat', 'India', 364710, 'shipping', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cartitem`
+--
+
+CREATE TABLE `cartitem` (
+  `cartItemId` int(11) NOT NULL,
+  `cartId` int(11) NOT NULL,
+  `productId` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `basePrice` decimal(10,0) NOT NULL,
+  `discount` decimal(10,0) NOT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cartitem`
+--
+
+INSERT INTO `cartitem` (`cartItemId`, `cartId`, `productId`, `quantity`, `basePrice`, `discount`, `createdDate`) VALUES
+(20, 3, 2, 7, '56000', '1000', '2021-03-27 05:49:29'),
+(21, 3, 9, 3, '8000', '200', '2021-03-27 06:46:05'),
+(22, 4, 2, 1, '56000', '1000', '2021-03-27 06:46:25'),
+(23, 4, 9, 1, '8000', '200', '2021-03-27 06:46:27'),
+(24, 1, 2, 2, '56000', '1000', '2021-03-28 00:01:26'),
+(29, 5, 2, 1, '56000', '1000', '2021-03-28 06:15:28'),
+(30, 2, 2, 3, '56000', '1000', '2021-03-28 06:16:11'),
+(31, 2, 9, 1, '8000', '200', '2021-03-28 06:16:14');
 
 -- --------------------------------------------------------
 
@@ -202,7 +313,10 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`customerId`, `firstName`, `lastName`, `email`, `mobile`, `status`, `password`, `createdDate`, `updatedDate`, `groupId`) VALUES
-(2, 'ravi', 'parmar', 'ravi@gmail.com', 2147483647, '0', '122', '2021-03-18 09:56:58', '0000-00-00 00:00:00', 2);
+(2, 'ravi', 'parmar', 'ravi@gmail.com', 2147483647, '0', '122', '2021-03-18 09:56:58', '0000-00-00 00:00:00', 2),
+(3, 'mehul', 'parmar', '', 0, '0', '', '2021-03-27 06:17:10', '0000-00-00 00:00:00', 2),
+(4, 'jaymin', 'makwana', '', 0, '0', '', '2021-03-27 06:17:19', '0000-00-00 00:00:00', 2),
+(5, 'ronak', '', '', 0, '0', '', '2021-03-27 08:00:07', '0000-00-00 00:00:00', 2);
 
 -- --------------------------------------------------------
 
@@ -211,23 +325,25 @@ INSERT INTO `customer` (`customerId`, `firstName`, `lastName`, `email`, `mobile`
 --
 
 CREATE TABLE `customer_address` (
+  `addressId` int(11) NOT NULL,
   `customerId` int(10) DEFAULT NULL,
   `address` text NOT NULL,
   `city` varchar(50) NOT NULL,
   `state` varchar(50) NOT NULL,
   `zipCode` int(6) NOT NULL,
   `country` varchar(20) NOT NULL,
-  `addressType` varchar(50) NOT NULL,
-  `addressId` int(11) NOT NULL
+  `addressType` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `customer_address`
 --
 
-INSERT INTO `customer_address` (`customerId`, `address`, `city`, `state`, `zipCode`, `country`, `addressType`, `addressId`) VALUES
-(2, 'ramnager', 'botad', 'gujarat', 364710, 'India', 'Billing', 1),
-(2, 'ramnager', 'botad', 'gujarat', 364710, 'India', 'Shipping', 2);
+INSERT INTO `customer_address` (`addressId`, `customerId`, `address`, `city`, `state`, `zipCode`, `country`, `addressType`) VALUES
+(1, 2, 'ramnagar', 'botad11', 'gujarat', 364710, 'India', 'billing'),
+(2, 2, 'ramnagar', 'botad11', 'gujarat', 364710, 'India', 'shipping'),
+(3, 3, 'gopalnagar', 'botad', 'gujarat', 364710, 'India', 'billing'),
+(4, 3, 'gopalnagar', 'botad', 'gujarat', 364710, 'India', 'shipping');
 
 -- --------------------------------------------------------
 
@@ -271,8 +387,8 @@ CREATE TABLE `media` (
 --
 
 INSERT INTO `media` (`mediaId`, `productId`, `label`, `image`, `small`, `thumb`, `base`, `gallery`) VALUES
-(1, 2, '', '16160736891.jpg', 1, 1, 1, 1),
-(2, 1, '', '16160737172.jpg', 1, 1, 1, 1);
+(1, 2, '', '16160736891.jpg', 1, 0, 1, 1),
+(3, 2, '', '16168504941.jpg', 0, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -294,7 +410,10 @@ CREATE TABLE `payment` (
 --
 
 INSERT INTO `payment` (`methodId`, `name`, `code`, `description`, `status`, `createdDate`) VALUES
-(1, 'mehul', '587496321', 'this is first payment', '0', '2021-03-18 14:13:12');
+(1, 'Creadit Cart', '587496321', 'for creadit cart', '0', '2021-03-18 14:13:12'),
+(2, 'Debit Cart', '1234566', 'for debit cart', '0', '2021-03-27 10:32:06'),
+(3, 'Paypal', '6523489', 'for paypal', '0', '2021-03-27 10:38:51'),
+(4, 'Case On Delivery', '4598745', 'for case on delivery', '0', '2021-03-27 10:32:40');
 
 -- --------------------------------------------------------
 
@@ -321,8 +440,8 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`productId`, `sku`, `name`, `price`, `discount`, `quantity`, `description`, `status`, `createdDate`, `updatedDate`, `color`) VALUES
-(1, 123456, 'mobile', 12000, 0, 1, 'this is mobile', '1', '2021-03-18 14:02:10', '2021-03-18 14:19:40', 2),
-(2, 0, 'laptop', 56000, 1000, 1, 'this is laptop', '1', '2021-03-18 14:10:30', '2021-03-18 14:10:34', NULL);
+(2, 0, 'laptop', 56000, 1000, 1, 'this is laptop', '1', '2021-03-18 14:10:30', '2021-03-27 11:55:48', 0),
+(9, 123456, 'mobile', 8000, 200, 10, 'this is mobile', '0', '2021-03-27 08:50:20', '2021-03-27 11:55:51', 0);
 
 -- --------------------------------------------------------
 
@@ -341,8 +460,8 @@ CREATE TABLE `product_category` (
 --
 
 INSERT INTO `product_category` (`id`, `productId`, `categoryId`) VALUES
-(1, 1, 15),
-(2, 2, 18);
+(6, 2, 18),
+(7, 9, 1);
 
 -- --------------------------------------------------------
 
@@ -362,8 +481,7 @@ CREATE TABLE `product_customer_group_price` (
 --
 
 INSERT INTO `product_customer_group_price` (`entityId`, `productId`, `customerGroupId`, `price`) VALUES
-(1, 2, 2, 11500),
-(2, 1, 2, 11500);
+(1, 2, 2, 11500);
 
 -- --------------------------------------------------------
 
@@ -386,7 +504,9 @@ CREATE TABLE `shipping` (
 --
 
 INSERT INTO `shipping` (`methodId`, `name`, `code`, `amount`, `description`, `status`, `createdDate`) VALUES
-(1, 'shipping', '8965774895', '23000', 'this is first shipping', '0', '2021-03-18 14:12:22');
+(2, 'Express Delivery 1 Day', '96854135', '100', 'for express delivery', '0', '2021-03-27 10:41:50'),
+(3, 'Platinum delivery ', '5698745', '50', 'for platinum delivery', '0', '2021-03-27 10:42:41'),
+(4, 'Free Delivery ', '635987451', '0', 'for free delivery', '0', '2021-03-27 10:43:33');
 
 --
 -- Indexes for dumped tables
@@ -410,6 +530,24 @@ ALTER TABLE `attribute`
 ALTER TABLE `attribute_option`
   ADD PRIMARY KEY (`optionId`),
   ADD KEY `attributeId` (`attributeId`);
+
+--
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`cartId`);
+
+--
+-- Indexes for table `cartaddress`
+--
+ALTER TABLE `cartaddress`
+  ADD PRIMARY KEY (`cartAddressId`);
+
+--
+-- Indexes for table `cartitem`
+--
+ALTER TABLE `cartitem`
+  ADD PRIMARY KEY (`cartItemId`);
 
 --
 -- Indexes for table `category`
@@ -493,7 +631,7 @@ ALTER TABLE `shipping`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `adminId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `adminId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `attribute`
@@ -506,6 +644,24 @@ ALTER TABLE `attribute`
 --
 ALTER TABLE `attribute_option`
   MODIFY `optionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `cartId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `cartaddress`
+--
+ALTER TABLE `cartaddress`
+  MODIFY `cartAddressId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `cartitem`
+--
+ALTER TABLE `cartitem`
+  MODIFY `cartItemId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -523,43 +679,43 @@ ALTER TABLE `cms_page`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customerId` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `customerId` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `customer_address`
 --
 ALTER TABLE `customer_address`
-  MODIFY `addressId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `addressId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `customer_group`
 --
 ALTER TABLE `customer_group`
-  MODIFY `groupId` bigint(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `groupId` bigint(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `media`
 --
 ALTER TABLE `media`
-  MODIFY `mediaId` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `mediaId` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `methodId` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `methodId` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `productId` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `productId` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `product_category`
 --
 ALTER TABLE `product_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `product_customer_group_price`
@@ -571,7 +727,7 @@ ALTER TABLE `product_customer_group_price`
 -- AUTO_INCREMENT for table `shipping`
 --
 ALTER TABLE `shipping`
-  MODIFY `methodId` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `methodId` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

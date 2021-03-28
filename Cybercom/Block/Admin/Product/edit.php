@@ -10,9 +10,4 @@ class Edit extends \Block\Core\Edit
         parent::__construct();
         $this->setTabClass(\Mage::getBlock('Block\Admin\Product\Edit\Tabs'));
     }
-
-    public function getTitle()
-    {
-        return 'Product';
-    }
 }

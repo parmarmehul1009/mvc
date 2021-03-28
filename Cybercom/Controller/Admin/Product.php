@@ -27,8 +27,7 @@ class Product extends \Controller\core\Admin
 
         $product = \Mage::getModel('Model\Product');
         if ($id = $this->getRequest()->getGet('id')) {
-            $query = "SELECT P.*,PC.* FROM {$product->getTableName()} AS P JOIN `product_category` AS PC ON P.productId = PC.productId WHERE P.productId = '{$id}'";
-            $product = $product->fetchRow($query);
+            $product = $product->load($id);
             if (!$product) {
                 throw new \Exception("Record Not Found.");
             }
@@ -47,8 +46,6 @@ class Product extends \Controller\core\Admin
             }
             if ($id = $this->getRequest()->getGet('id')) {
                 $product = $product->load($id);
-                $query = "SELECT * FROM {$product_category->getTableName()} WHERE `productId` = {$id}";
-                $product_category = $product_category->fetchRow($query);
                 if (!$product) {
                     throw new \Exception("Record Not Found.");
                 }
@@ -57,15 +54,23 @@ class Product extends \Controller\core\Admin
                 $product->createdDate = date("Y-m-d H:i:s");
             }
             $productData = $this->getRequest()->getPost('product');
+
             $product->setData($productData);
             $product->save();
             $productCategoryData = $this->getRequest()->getPost('category');
-            $product_category->setData($productCategoryData);
-            $product_category->productId = $product->productId;
-            $recordId = $product_category->save();
-            if (!$recordId) {
-                throw new \Exception("Record Not Inserted.");
-            };
+            if ($productCategoryData) {
+                $product_category = \Mage::getModel('Model\Product\Category');
+                $query = "DELETE FROM `{$product_category->getTableName()}` WHERE `productId` = {$product->productId}";
+                $product_category->getAdapter()->update($query);
+                foreach ($productCategoryData as $key => $category) {
+                    $product_category = \Mage::getModel('Model\Product\Category');
+                    $product_category->categoryId = $category;
+                    $product_category->productId = $product->productId;
+                    $product_category->save();
+                }
+            }
+            // $recordId = $product_category->save();
+
             $this->getMessage()->setSuccess('Record Inserted successfully.');
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
@@ -118,6 +123,14 @@ class Product extends \Controller\core\Admin
         } catch (\Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
         }
+        $grid = \Mage::getBlock('Block\Admin\Product\Grid')->toHtml();
+        $this->makeResponse($grid);
+    }
+
+    public function filterAction()
+    {
+        $data = $this->getRequest()->getPost('filter');
+        $this->getFilter()->setFilters($data);
         $grid = \Mage::getBlock('Block\Admin\Product\Grid')->toHtml();
         $this->makeResponse($grid);
     }

@@ -22,4 +22,10 @@ class Admin extends \Controller\Core\Abstracts
         $this->message = \Mage::getModel('Model\Admin\Message');
         return $this;
     }
+
+    public function setFilter($filter = null)
+    {
+        $this->filter = \Mage::getModel('Model\Admin\Filter');
+        return $this;
+    }
 }

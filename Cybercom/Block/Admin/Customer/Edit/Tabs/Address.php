@@ -35,10 +35,10 @@ class Address extends \Block\Core\Edit
                 $addresses = $address->fetchAll($query);
                 if ($addresses) {
                     foreach ($addresses->getData() as $address) {
-                        if ($address->addressType == 'Billing') {
+                        if ($address->addressType == 'billing') {
                             $billing = $address;
                         }
-                        if ($address->addressType == 'Shipping') {
+                        if ($address->addressType == 'shipping') {
                             $shipping = $address;
                         }
                     }

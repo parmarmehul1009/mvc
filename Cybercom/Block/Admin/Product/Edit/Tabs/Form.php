@@ -44,4 +44,15 @@ class Form extends \Block\Core\Edit
         }
         return $this->categoriesOptions;
     }
+
+    public function getCategorys()
+    {
+        $product = $this->getTableRow();
+        if ($product->productId) {
+            $product_category = \Mage::getModel('Model\Product\Category');
+            $query = "SELECT * FROM `{$product_category->getTableName()}` WHERE `productId` = {$product->productId}";
+            $categorys = $product_category->fetchAll($query);
+            return $categorys;
+        }
+    }
 }

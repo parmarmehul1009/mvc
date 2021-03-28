@@ -29,11 +29,6 @@ class Tabs extends \Block\Core\Template
         return $this;
     }
 
-    public function removeTabs()
-    {
-        return $this;
-    }
-
     public function getTabs()
     {
         return $this->tabs;
