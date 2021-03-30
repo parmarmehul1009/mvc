@@ -85,34 +85,42 @@ class Grid extends \Block\Core\Grid
 
     public function prepareCollection()
     {
-        $filters = $this->getFilter()->getFilters();
-        $this->getFilter()->clearFilters();
         $customer = \Mage::getModel('Model\Customer');
-        $query = $query = "SELECT C.*,CG.name AS groupName,CA.zipCode FROM customer as C LEFT JOIN customer_group AS CG ON C.groupId = CG.groupId LEFT JOIN customer_address AS CA ON CA.customerId = C.customerId AND CA.addressType = 'Billing'";;
-        if ($filters) {
-            $str = '';
-            foreach ($filters as $field => $value) {
-                if ($value) {
-                    if ($field == 'groupName') {
-                        $str .= "CG.name LIKE '%{$value}%' ";
+        $query = "SELECT COUNT(*) AS count FROM `{$customer->getTableName()}`;";
+        $result = $customer->fetchRow($query);
+        $this->getPager()->setCurrentPage($_GET['p']);
+        $this->getPager()->setRecordsPerPage(5);
+        $this->getPager()->setTotalRecord($result->count);
+        $this->getPager()->calculate();
+        $start = ($this->getPager()->getCurrentPage() - 1) * $this->getPager()->getRecordsPerPage();
+        $query = "SELECT C.*,CG.name AS groupName,CA.zipCode FROM customer as C LEFT JOIN customer_group AS CG ON C.groupId = CG.groupId LEFT JOIN customer_address AS CA ON CA.customerId = C.customerId AND CA.addressType = 'Billing'";;
+        if ($this->getFilter()->hasFilters()) {
+            $query .= 'WHERE 1 = 1';
+            foreach ($this->getFilter()->getFilters() as $type => $filters) {
+                foreach ($filters as $key => $value) {
+                    if ($key == 'groupName') {
+                        $query .= " AND (CG.name LIKE '%{$value}%')";
                     }
-                    if ($field == 'zipCode') {
-                        $str .= "CA.{$field} LIKE '%{$value}%' ";
+                    if ($key == 'zipCode') {
+                        $query .= " AND (CA.{$key} LIKE '%{$value}%') ";
                     }
-                    if ($field != 'groupName' && $field != 'zipCode') {
-                        $str .= "C.{$field} LIKE '%{$value}%' ";
+                    if ($key != 'groupName' && $key != 'zipCode') {
+                        $query .= " AND (C.{$key} LIKE '%{$value}%') ";
                     }
+                    $query .= " AND (`{$key}` LIKE '%{$value}%')";
                 }
             }
-            $query = "SELECT C.*,CG.name AS groupName,CA.zipCode FROM customer as C LEFT JOIN customer_group AS CG ON C.groupId = CG.groupId LEFT JOIN customer_address AS CA ON CA.customerId = C.customerId AND CA.addressType = 'Billing' WHERE {$str}";
-            if ($str == '') {
-                $query = "SELECT C.*,CG.name AS groupName,CA.zipCode FROM customer as C LEFT JOIN customer_group AS CG ON C.groupId = CG.groupId LEFT JOIN customer_address AS CA ON CA.customerId = C.customerId AND CA.addressType = 'Billing'";
-            }
         }
+        $query .= "LIMIT {$start}, {$this->getPager()->getRecordsPerPage()}";
         $collection = $customer->fetchAll($query);
         $this->setCollection($collection);
-        $this->getFilter()->clearFilters();
         return $this;
+    }
+
+    public function getApplyFilterUrl()
+    {
+        $url = $this->getUrl('filter', 'admin_customer', null, true);
+        echo "mage.setForm(this).setUrl('{$url}').load()";
     }
 
     public function getTitle()

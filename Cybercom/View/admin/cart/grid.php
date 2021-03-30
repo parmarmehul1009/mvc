@@ -16,8 +16,9 @@
                                     <b>No Customers</b>
                                 <?php else : ?>
                                     <select name="customer[customerId]" id="">
+                                        <option value="0">Select Customer</option>
                                         <?php foreach ($customers->getData() as $value) : ?>
-                                            <option value="<?php echo $value->customerId; ?>" <?php if ($value->customerId == $customer->customerId) : ?> selected <?php endif; ?>><?php echo $value->firstName ?></option>
+                                            <option value="<?php echo $value->customerId; ?>" <?php if ($customer) : ?><?php if ($value->customerId == $customer->customerId) : ?> selected <?php endif; ?> <?php endif; ?>><?php echo $value->firstName ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 <?php endif; ?>

@@ -10,7 +10,7 @@ class Grid extends \Block\Core\Template
     protected $actions = [];
     protected $buttons = [];
     protected $pager = null;
-
+    protected $filter = null;
     public function __construct()
     {
         parent::__construct();
@@ -110,13 +110,10 @@ class Grid extends \Block\Core\Template
 
     public function getFilter()
     {
-        $controller = \Mage::getController('Controller\Core\Admin');
-        return $controller->getFilter();
-    }
-
-    public function getApplyFilterUrl()
-    {
-        echo "mage.setForm(this).load()";
+        if (!$this->filter) {
+            $this->filter = \Mage::getModel('Model\Admin\filter');
+        }
+        return $this->filter;
     }
 
     public function getPager()

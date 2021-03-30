@@ -30,7 +30,7 @@ $title = $this->getTitle();
                         </tr>
                         <tr>
                             <?php foreach ($columns as $column) : ?>
-                                <td><input name="filter[<?= $column['field'] ?>]" type="text"></td>
+                                <td><input name="filter[<?= $column['type'] ?>][<?= $column['field'] ?>]" type="text" value="<?php echo $this->getFilter()->getFilterValue($column['type'], $column['field']); ?>"></td>
                             <?php endforeach; ?>
                         </tr>
                     <?php endif; ?>

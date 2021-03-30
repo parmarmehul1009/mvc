@@ -95,26 +95,24 @@ class Grid extends \Block\Core\Grid
 
     public function prepareCollection()
     {
-        $filters = $this->getFilter()->getFilters();
-        $this->getFilter()->clearFilters();
-        $this->getPager()->setCurrentPage(1);
+        $category = \Mage::getModel('Model\category');
+        $query = "SELECT COUNT(*) AS count FROM `{$category->getTableName()}`;";
+        $result = $category->fetchRow($query);
+        $this->getPager()->setCurrentPage($_GET['p']);
         $this->getPager()->setRecordsPerPage(5);
+        $this->getPager()->setTotalRecord($result->count);
         $this->getPager()->calculate();
         $start = ($this->getPager()->getCurrentPage() - 1) * $this->getPager()->getRecordsPerPage();
-        $category = \Mage::getModel('Model\category');
-        $query = "SELECT * FROM `{$category->getTableName()}` LIMIT {$start},{$this->getPager()->getRecordsPerPage()}";
-        if ($filters) {
-            $str = '';
-            foreach ($filters as $fild => $value) {
-                if ($value) {
-                    $str .= " AND `{$fild}` LIKE '%{$value}%' ";
+        $query = "SELECT * FROM `{$category->getTableName()}`";
+        if ($this->getFilter()->hasFilters()) {
+            $query .= 'WHERE 1 = 1';
+            foreach ($this->getFilter()->getFilters() as $type => $filters) {
+                foreach ($filters as $key => $value) {
+                    $query .= " AND (`{$key}` LIKE '%{$value}%')";
                 }
             }
-            $query = "SELECT * FROM `{$category->getTableName()}` WHERE 1 = 1 {$str} LIMIT {$start},{$this->getPager()->getRecordsPerPage()}";
-            if ($str == '') {
-                $query = "SELECT * FROM `{$category->getTableName()}` LIMIT {$start},{$this->getPager()->getRecordsPerPage()}";
-            }
         }
+        $query .= "LIMIT {$start}, {$this->getPager()->getRecordsPerPage()}";
         $collection = $category->fetchAll($query);
         $this->setCollection($collection);
         return $this;
@@ -149,4 +147,3 @@ class Grid extends \Block\Core\Grid
         echo "mage.setForm(this).setUrl('{$url}').load()";
     }
 }
-// http://localhost/myProject/practice/index.php?c=admin_dashboard&a=index&p=4

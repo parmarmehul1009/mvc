@@ -110,8 +110,8 @@ class Admin extends \Controller\Core\Admin
 
     public function filterAction()
     {
-        $data = $this->getRequest()->getPost('filter');
-        $this->getFilter()->setFilters($data);
+        $filters = $this->getRequest()->getPost('filter');
+        $this->getFilter()->setFilters($filters);
         $grid = \Mage::getBlock('Block\Admin\Admin\Grid')->toHtml();
         $this->makeResponse($grid);
     }

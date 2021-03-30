@@ -40,7 +40,7 @@ class Url
             $final = array_merge($final, $params);
         }
         $queryString = http_build_query($final);
-        return "http://localhost/Advance%20php/Practice/Cybercom/index.php?{$queryString}";
+        return "http://localhost/Advance%20php/Practice/Cybercom/index.php?p=1&{$queryString}";
     }
 
     public function baseUrl($subUrl = null)

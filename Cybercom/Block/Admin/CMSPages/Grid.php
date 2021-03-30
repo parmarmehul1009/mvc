@@ -85,26 +85,33 @@ class Grid extends \Block\Core\Grid
 
     public function prepareCollection()
     {
-        $filters = $this->getFilter()->getFilters();
-        $this->getFilter()->clearFilters();
         $cmspages = \Mage::getModel('Model\CMSPages');
+        $query = "SELECT COUNT(*) AS count FROM `{$cmspages->getTableName()}`;";
+        $result = $cmspages->fetchRow($query);
+        $this->getPager()->setCurrentPage($_GET['p']);
+        $this->getPager()->setRecordsPerPage(5);
+        $this->getPager()->setTotalRecord($result->count);
+        $this->getPager()->calculate();
+        $start = ($this->getPager()->getCurrentPage() - 1) * $this->getPager()->getRecordsPerPage();
         $query = "SELECT * FROM `{$cmspages->getTableName()}`";
-        if ($filters) {
-            $str = '';
-            foreach ($filters as $fild => $value) {
-                if ($value) {
-                    $str .= "`{$fild}` LIKE '%{$value}%' ";
+        if ($this->getFilter()->hasFilters()) {
+            $query .= 'WHERE 1 = 1';
+            foreach ($this->getFilter()->getFilters() as $type => $filters) {
+                foreach ($filters as $key => $value) {
+                    $query .= " AND (`{$key}` LIKE '%{$value}%')";
                 }
             }
-            $query = "SELECT * FROM `{$cmspages->getTableName()}` WHERE {$str}";
-            if ($str == '') {
-                $query = "SELECT * FROM `{$cmspages->getTableName()}`";
-            }
         }
+        $query .= "LIMIT {$start}, {$this->getPager()->getRecordsPerPage()}";
         $collection = $cmspages->fetchAll($query);
         $this->setCollection($collection);
-        $this->getFilter()->clearFilters();
         return $this;
+    }
+
+    public function getApplyFilterUrl()
+    {
+        $url = $this->getUrl('filter', 'admin_CMSPages', null, true);
+        echo "mage.setForm(this).setUrl('{$url}').load()";
     }
 
     public function getTitle()

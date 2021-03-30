@@ -78,28 +78,26 @@ class Grid extends \Block\Core\Grid
         echo "mage.setUrl('{$url}').load()";
     }
 
+    public function getApplyFilterUrl()
+    {
+        $url = $this->getUrl('filter', 'admin_customer_group', null, true);
+        echo "mage.setForm(this).setUrl('{$url}').load()";
+    }
 
     public function prepareCollection()
     {
-        $filters = $this->getFilter()->getFilters();
-        $this->getFilter()->clearFilters();
         $customerGroup = \Mage::getModel('Model\Customer\Group');
         $query = "SELECT * FROM `{$customerGroup->getTableName()}`";
-        if ($filters) {
-            $str = '';
-            foreach ($filters as $fild => $value) {
-                if ($value) {
-                    $str .= "`{$fild}` = '{$value}' ";
+        if ($this->getFilter()->hasFilters()) {
+            $query .= 'WHERE 1 = 1';
+            foreach ($this->getFilter()->getFilters() as $type => $filters) {
+                foreach ($filters as $key => $value) {
+                    $query .= " AND (`{$key}` LIKE '%{$value}%')";
                 }
-            }
-            $query = "SELECT * FROM `{$customerGroup->getTableName()}` WHERE {$str}";
-            if ($str == '') {
-                $query = "SELECT * FROM `{$customerGroup->getTableName()}`";
             }
         }
         $collection = $customerGroup->fetchAll($query);
         $this->setCollection($collection);
-        $this->getFilter()->clearFilters();
         return $this;
     }
 

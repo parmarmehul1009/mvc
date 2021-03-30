@@ -66,18 +66,18 @@
                         <!-- Main Nav Menu -->
                         <div class="main_nav_menu">
                             <ul class="standard_dropdown main_nav_dropdown">
-                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('index', 'admin_index') ?>').resetPrams().load();">Home</button></li>
-                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_admin') ?>').resetPrams().load();">Admin</button></li>
+                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('index', 'admin_index', ['p' => 1]) ?>').resetPrams().load();">Home</button></li>
+                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_admin', ['p' => 1]) ?>').resetPrams().load();">Admin</button></li>
                                 <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_customer_Group') ?>').resetPrams().load();">Customer Group</button></li>
-                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_product') ?>').resetPrams().load();">Product</button></li>
-                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_category') ?>').resetPrams().load();">Category</button></li>
-                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_customer') ?>').resetPrams().load();">Customer</button></li>
-                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_shipping') ?>').resetPrams().load();">Shipping</button></li>
-                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_payment') ?>').resetPrams().load();">Payment</button></li>
-                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_cMSPages') ?>').resetPrams().load();">CMS Pages</button></li>
-                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_attribute') ?>').resetPrams().load();">Attribute</button></li>
-                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_brand') ?>').resetPrams().load();">Brand</button></li>
-                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_cart') ?>').resetPrams().load();">Cart</button></li>
+                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_product', ['p' => 1]) ?>').resetPrams().load();">Product</button></li>
+                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_category', ['p' => 1]) ?>').resetPrams().load();">Category</button></li>
+                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_customer', ['p' => 1]) ?>').resetPrams().load();">Customer</button></li>
+                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_shipping', ['p' => 1]) ?>').resetPrams().load();">Shipping</button></li>
+                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_payment', ['p' => 1]) ?>').resetPrams().load();">Payment</button></li>
+                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_cMSPages', ['p' => 1]) ?>').resetPrams().load();">CMS Pages</button></li>
+                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_attribute', ['p' => 1]) ?>').resetPrams().load();">Attribute</button></li>
+                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_brand', ['p' => 1]) ?>').resetPrams().load();">Brand</button></li>
+                                <li class="hassubs"> <button onclick="mage.setUrl('<?php echo $this->getUrl('grid', 'admin_cart', ['p' => 1]) ?>').resetPrams().load();">Cart</button></li>
                             </ul>
                         </div>
                         <!-- <div class="top_bar_user">
