@@ -89,7 +89,10 @@ class Grid extends \Block\Core\Grid
         $admin = \Mage::getModel('Model\admin');
         $query = "SELECT COUNT(*) AS count FROM `{$admin->getTableName()}`;";
         $result = $admin->fetchRow($query);
-        $this->getPager()->setCurrentPage($_GET['p']);
+        if (array_key_exists('p', $_GET)) {
+            $this->getPager()->setCurrentPage($_GET['p']);
+        }
+        //$this->getPager()->setCurrentPage($_GET['p']);
         $this->getPager()->setRecordsPerPage(5);
         $this->getPager()->setTotalRecord($result->count);
         $this->getPager()->calculate();

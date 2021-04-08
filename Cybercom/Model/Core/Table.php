@@ -9,10 +9,11 @@ class Table
     {
         $this->setAdapter();
     }
+    protected $originalData = [];
+    protected $data  = [];
     protected $adapter = null;
     protected $primaryKey = null;
     protected $tableName = null;
-    protected $data  = [];
 
     public function setAdapter()
     {
@@ -42,6 +43,17 @@ class Table
     {
         $this->data = array_merge($this->data, $data);
         return $this;
+    }
+
+    public function setOriginalData(array $originalData)
+    {
+        $this->originalData = $originalData;
+        return $this;
+    }
+
+    public function getOriginalData()
+    {
+        return $this->originalData;
     }
 
     public function getData()
@@ -74,15 +86,26 @@ class Table
 
     public function __get($key)
     {
-        if (!array_key_exists($key, $this->data)) {
-            return null;
+        if (array_key_exists($key, $this->data)) {
+            return $this->data[$key];
         }
-        return $this->data[$key];
+
+        if (array_key_exists($key, $this->originalData)) {
+            return $this->originalData[$key];
+        }
+        return null;
     }
 
     public function save()
     {
-        if (!array_key_exists($this->getPrimaryKey(), $this->getData())) {
+        if (array_key_exists($this->getPrimaryKey(), $this->getData())) {
+            unset($this->getData()[$this->getPrimaryKey()]);
+        }
+        $id = (int) $this->{$this->getPrimaryKey()};
+        if (!$this->getData()) {
+            return false;
+        }
+        if (!$id) {
             $fields = implode(",", array_keys($this->getData()));
             $values = "'" . implode("','", array_values($this->getData())) . "'";
             $query = "INSERT INTO `{$this->getTableName()}` ({$fields})  VALUES({$values})";
@@ -95,7 +118,7 @@ class Table
             $sets = $sets . $k . "='" . $v . "',";
         }
         $sets = rtrim($sets, ",");
-        $query = "UPDATE `{$this->getTableName()}` SET {$sets} WHERE `{$this->getPrimaryKey()}`='{$this->data[$this->getPrimaryKey()]}'";
+        $query = "UPDATE `{$this->getTableName()}` SET {$sets} WHERE `{$this->getPrimaryKey()}`='{$this->originalData[$this->getPrimaryKey()]}'";
         $recordId = $this->getAdapter()->update($query);
         return $recordId;
     }
@@ -103,10 +126,10 @@ class Table
     public function delete()
     {
 
-        if (!array_key_exists($this->getPrimaryKey(), $this->getData())) {
+        if (!array_key_exists($this->getPrimaryKey(), $this->getOriginalData())) {
             return false;
         }
-        $id = $this->getData()[$this->getPrimaryKey()];
+        $id = $this->getOriginalData()[$this->getPrimaryKey()];
         $query = "DELETE FROM `{$this->getTableName()}` WHERE `{$this->getPrimaryKey()}`='{$id}'";
 
         return $this->getAdapter()->delete($query);
@@ -125,7 +148,7 @@ class Table
         if (!$row) {
             return false;
         }
-        $this->data = $row;
+        $this->setOriginalData($row);
         return $this;
     }
 
@@ -141,7 +164,7 @@ class Table
         }
         foreach ($rows as $key => &$value) {
             $row =  new $this;
-            $value = $row->setData($value);
+            $value = $row->setOriginalData($value);
         }
 
         $collectionClassName = get_class($this) . '\Collection';
